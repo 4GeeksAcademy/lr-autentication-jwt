@@ -13,12 +13,61 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			],
+			auth: false
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
 			exampleFunction: () => {
 				getActions().changeColor(0, "green");
+			},
+			createuser: (inputEmail, inputPassword) => {
+				fetch(process.env.BACKEND_URL + "/api/singup", 
+					{method: 'POST', 
+						headers: {"Content-Type": "application/json"},
+						body: JSON.stringify({
+						   "email": inputEmail,
+						   "password": inputPassword
+					   
+					   }),
+					   redirect: "follow"
+					   })
+					   .then((response) => {
+						console.log(response.status)
+						if (response.status == 200) {
+							setStore({ auth: true })
+						}
+						return response.json()
+					})
+			},
+			logout: () => {
+				console.log("logout")
+				localStorage.removeItem("token");
+				setStore({ auth: false })
+			},
+
+			login: (inputEmail, inputPassword) => {
+				fetch(process.env.BACKEND_URL + "/api/login", {
+					method: 'POST',
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						"email": inputEmail,
+						"password": inputPassword
+					}),
+					redirect: "follow"
+				})
+					.then((response) => {
+						console.log(response.status)
+						if (response.status == 200) {
+							setStore({ auth: true })
+						}
+						return response.json()
+					})
+					.then((data) => {
+						localStorage.setItem("token", data.access_token);
+						console.log(data.access_token)
+						console.log(data)
+					})
 			},
 
 			getMessage: async () => {

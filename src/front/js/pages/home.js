@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
@@ -7,20 +8,57 @@ export const Home = () => {
 	const { store, actions } = useContext(Context);
 
 	return (
-		<div className="text-center mt-5">
-			<h1>Hello Rigo!!</h1>
-			<p>
-				<img src={rigoImageUrl} />
-			</p>
-			<div className="alert alert-info">
-				{store.message || "Loading message from the backend (make sure your python backend is running)..."}
+		<div className="text-center d-flex justify-content-center p-5"  
+			style={{
+				marginTop: "15%", 
+				gap: "25px", 
+				flexDirection: "column", 
+				width: "50%", 
+				marginLeft: "25%", 
+				backgroundColor: "#f0f0f0", 
+				borderRadius: "15px", 
+				padding: "20px"
+			}}>
+			<h1>¿Ya tienes un usuario?</h1>
+			<div className="text-center d-flex justify-content-center">
+			<Link to="/crearuser">
+				<button style={{
+					backgroundColor: "#4CAF50",
+					color: "white",
+					border: "none",
+					borderRadius: "10px",
+					padding: "10px 20px",
+					fontSize: "16px",
+					cursor: "pointer",
+					marginRight: "10px",
+					transition: "background-color 0.3s ease"
+				}}
+				onMouseOver={(e) => e.target.style.backgroundColor = "#45a049"}
+				onMouseOut={(e) => e.target.style.backgroundColor = "#4CAF50"}
+				>
+					Crear un usuario
+				</button>
+			</Link>
+			
+				<Link to="/enter">
+					<button style={{
+						backgroundColor: "#008CBA",
+						color: "white",
+						border: "none",
+						borderRadius: "10px",
+						padding: "10px 20px",
+						fontSize: "16px",
+						cursor: "pointer",
+						transition: "background-color 0.3s ease"
+					}}
+					onMouseOver={(e) => e.target.style.backgroundColor = "#007bb5"}
+					onMouseOut={(e) => e.target.style.backgroundColor = "#008CBA"}
+					>
+						Iniciar sesión
+					</button>
+				</Link>
 			</div>
-			<p>
-				This boilerplate comes with lots of documentation:{" "}
-				<a href="https://start.4geeksacademy.com/starters/react-flask">
-					Read documentation
-				</a>
-			</p>
 		</div>
+
 	);
 };
